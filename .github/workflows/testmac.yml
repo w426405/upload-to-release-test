@@ -21,8 +21,8 @@ jobs:
       - name: Pack files
         working-directory: ${{github.workspace}}/out
         run: |
-          tar -cJf test1.tar.xz test1
-          tar -cJf test2.tar.xz test2
+          tar -cJf test1.tar.xz test1.txt
+          tar -cJf test2.tar.xz test2.txt
 
       - uses: actions/upload-artifact@v2
         with:
