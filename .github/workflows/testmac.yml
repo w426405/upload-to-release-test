@@ -1,0 +1,39 @@
+name: MacOS
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          path: 'XingDBG'
+
+      - name: Make dir
+        working-directory: ${{github.workspace}}
+        run: |
+          mkdir out
+          echo test1 >test1.txt
+          echo test2 >test2.txt
+          mkdir build
+      
+      - name: Pack files
+        working-directory: ${{github.workspace}}/out
+        run: |
+          tar -cJf test1.tar.xz test1
+          tar -cJf test2.tar.xz test2
+
+      - uses: actions/upload-artifact@v2
+        with:
+          path: ${{github.workspace}}/out/*.tar.xz
+
+      - uses: xresloader/upload-to-github-release@v1
+        if: contains(github.ref, 'tags/')
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          file: "out/*.tar.xz"
+          overwrite: true
+          tags: true
+          draft: false
