@@ -14,6 +14,7 @@ jobs:
         working-directory: ${{github.workspace}}
         run: |
           mkdir out
+          cd out
           echo test1 >test1.txt
           echo test2 >test2.txt
           mkdir build
